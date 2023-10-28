@@ -5,8 +5,12 @@ name = "pypi"
 
 [packages]
 django = "*"
+django-cors-headers = "*"
+djangorestframework = "*"
+mysqlclient = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "2.7"
+python_version = "3.12"
+python_full_version = "3.12.0"
