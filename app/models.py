@@ -2,8 +2,10 @@ from django.db import models
 
 # Create your models here.
 class React(models.Model):
-  symbol = models.CharField(max_length=30)
+  symbol = models.CharField(unique=True,max_length=30, primary_key=True)
   name = models.CharField(max_length=200)
   actual_price = models.FloatField(max_length=5)
-  date = models.DateField()
+  date = models.DateTimeField(max_length=200, primary_key=False)
+
+
 
