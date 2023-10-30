@@ -8,6 +8,9 @@ django = "*"
 django-cors-headers = "*"
 djangorestframework = "*"
 mysqlclient = "*"
+requests = "*"
+yahooquery = "*"
+investpy = "*"
 
 [dev-packages]
 
