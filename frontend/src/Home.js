@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import React from 'react';
 import axios from 'axios'
 import { browserHistory, Router, Route } from 'react-router';
+import './Home.css';
+import { Link } from "react-router-dom";
 
 // function LoginLayout() {
   
@@ -39,18 +41,30 @@ class Home extends React.Component {
 
     render() {
       return (
-      <div>
-        {this.state.details.map((output,id) => (
+        <div>
+        <Link to='/novoativo' class="button"> Adicionar novo ativo</Link>
+        <table class="header">
+          <thead>
+              <th class="elements">Símbolo</th>
+              <th class="elements">Nome</th>
+              <th class="elements">Data</th>
+              <th class="elements">Preço Atual</th>
+              <th class="elements">Intervalo de monitoramento</th>
+          </thead>
+        </table>
+        {this.state.details.map((output, id) => (
           <div key={id}>
-            <div>
-              <h2>{output.symbol}</h2>
-              <h2>{output.name}</h2>
-              <h2>{output.date}</h2>
-              <h2>{output.price}</h2>
-            </div>
+            <table class ="dataframe">
+              <tr >
+                <td class="elements">{output.symbol}</td>
+                <td class="elements">{output.name}</td>
+                <td class="elements">{output.date}</td>
+                <td class="price">{output.actual_price}</td>
+                <td class="elements">{output.monitor}</td>
+              </tr>
+            </table>
           </div>
         ))}
-        <button href='/novoativo'>Adicionar novo ativo</button>
       </div>
       )
     }

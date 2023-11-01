@@ -11,6 +11,7 @@ mysqlclient = "*"
 requests = "*"
 yahooquery = "*"
 investpy = "*"
+apscheduler = "*"
 
 [dev-packages]
 

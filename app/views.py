@@ -8,27 +8,17 @@ import numpy as np
 import pandas as pd
 import investpy as inv
 import datetime
-from . form import AtivoForm
 from ast import literal_eval
-# Create your views here.
-
-# def save_form(request):
-#     form = AtivoForm(request.POST or None)
-#     if form.is_valid():
-#         form.save()
-#     context = {
-#         'form':form
-#     }
-#     return render(request,"Home.js",context)
-
+from datetime import datetime
+from apscheduler.schedulers.background import BackgroundScheduler
+from .monitoring import *
 
 class ReactView(APIView):
     serializer_class = ReactSerializer 
 
-    
     def get(self, request):
-        output = [{"symbol": output.symbol, "name": output.name, "actual_price": output.actual_price, "date": output.date}
-                  for output in React.objects.all()]
+        output = [{"symbol": output.symbol, "name": output.name, "actual_price": output.actual_price, "date": output.date,"monitor": output.monitor,"low":output.low,"high":output.high,"min":output.min,"max":output.max}
+                  for output in React.objects.all()]                
         return Response(output)
 
     def post(self, request):
@@ -36,67 +26,71 @@ class ReactView(APIView):
         lista_data =[]
         form =React()
         form.symbol = literal_eval(request.body.decode('utf-8'))["symbol"]
+        form.monitor = literal_eval(request.body.decode('utf-8'))["monitor"]
+        form.min = literal_eval(request.body.decode('utf-8'))["min"]
+        form.max = literal_eval(request.body.decode('utf-8'))["max"]
         #get name, date and actual_price
-        lista_data = get_stock_data(form.symbol, form)
-
-        form.name = dict
-        print(form.symbol)
-        print(form.name)
-        print(form.date)
-        print(form.actual_price)
-        if var==True:
-            form.save()
-        else :
-            print("selva")
-        context = {
-            'form':form
-        }
-
-        # # return render(request,"Home.js",context)
-        # serializer = ReactSerializer(data=request.data)
-        # if serializer.is_valid(raise_exception=True):
-        #     serializer.save()
-        # return Response(serializer.data)
+        try:
+            get_stock_data(form.symbol, form)
+        except:
+            return Response("Duplicata")
         return Response("ok")
-    
+
 def get_stock_data(symbol, form):
-        #get stocks
-        df = inv.get_stocks(country = 'brazil' ) 
-        #Puxando o nome dos símbolos  
-        symbols=df['symbol'].tolist()    
-        for i in range(len(symbols)) : 
-            symbols[i] = symbols[i] + ".SA"
-        #Nome dos ativos
-        nome_dos_ativos = df['name'].tolist()
-        dict_ativos={}
-        #Preenchendo o dict
-        for i in range(len(nome_dos_ativos)) :
-            dict_ativos[symbols[i]]= nome_dos_ativos[i]
-
-
         #get sql data
+
         stock_data = React.objects.values()
         lista_symbols = list(React.objects.values_list("symbol"))
-        print(lista_symbols)
-        for i in range(len(stock_data)):
-            if symbol in lista_symbols :
+        if len(stock_data) !=0:
+            for i in range(len(stock_data)):
+                if symbol in lista_symbols :
+                    pass
+                else:
+                    create_form(form)
+                    React.objects.create(symbol=form.symbol,name=form.name,actual_price=form.actual_price,date=form.date,monitor=form.monitor,low=form.low,high=form.high,min=form.min,max=form.max)
+                    # scheduler = BackgroundScheduler()
+                    # scheduler.add_job(monitoring,'interval',seconds=form.monitor, args=[form])
+                    # scheduler.start()
+                    break
+        else:
+            create_form(form)
+            React.objects.all()
+            React.objects.create(symbol=form.symbol,name=form.name,actual_price=form.actual_price,date=form.date,monitor=form.monitor,low=form.low,high=form.high,min=form.min,max=form.max)
 
-                 pass
-            else:
-                #get name
-                form.name = dict_ativos[symbol]
-                ativo = Ticker(symbol) 
-                df_ativo_history=pd.DataFrame(ativo.history(period="7d",  interval = "1m")).reset_index()
 
-                try : 
-                    form.actual_price = df_ativo_history.iloc[-1,df_ativo_history.columns.get_loc('close')]
-                except:
-                    form.actual_price = -1
-                try : 
-                    form.date = df_ativo_history.iloc[-1,df_ativo_history.columns.get_loc('date')].to_pydatetime().strftime("%Y-%m-%d %H:%M:%S")
-                except:
-                    form.date = datetime.datetime(2000, 10, 25, 00, 00, 00)
-                
-                React.objects.all()
-                React.objects.create(symbol=form.symbol,name=form.name,actual_price=form.actual_price,date=form.date)
-                break
+
+def create_form (form) :
+
+    #get stocks
+    df = inv.get_stocks(country = 'brazil' ) 
+    #Puxando o nome dos símbolos  
+    symbols=df['symbol'].tolist()    
+    for i in range(len(symbols)) : 
+        symbols[i] = symbols[i] + ".SA"
+    #Nome dos ativos
+    nome_dos_ativos = df['name'].tolist()
+    dict_ativos={}
+    #Preenchendo o dict
+    for i in range(len(nome_dos_ativos)) :
+        dict_ativos[symbols[i]]= nome_dos_ativos[i]
+    #filling the form with the data to send to database
+    form.name = dict_ativos[form.symbol]
+    ativo = Ticker(form.symbol) 
+    df_ativo_history=pd.DataFrame(ativo.history(period="7d",  interval = "1m")).reset_index()
+    try : 
+        form.actual_price = df_ativo_history.iloc[-1,df_ativo_history.columns.get_loc('close')]
+    except:
+        form.actual_price = -1
+    try : 
+        form.low = df_ativo_history.iloc[-1,df_ativo_history.columns.get_loc('low')]
+    except:
+        form.low = -1
+    try : 
+        form.high = df_ativo_history.iloc[-1,df_ativo_history.columns.get_loc('high')]
+    except:
+        form.high = -1
+    try : 
+        form.date = df_ativo_history.iloc[-1,df_ativo_history.columns.get_loc('date')].to_pydatetime().strftime("%Y-%m-%d %H:%M:%S")
+    except:
+        form.date = datetime.datetime(2000, 10, 25, 00, 00, 00)
+
