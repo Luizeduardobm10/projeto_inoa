@@ -1,0 +1,43 @@
+.header {
+    background-color: rgb(197, 197, 197);
+    text-align: center; /* Alinha o texto no centro das células */
+    padding: 50px; /* Espaçamento interno nas células */
+    border: 2px solid #000000;
+    width : 100%
+}
+.elements {
+    width: 20%;
+}
+.dataframe {
+    background-color: rgb(221, 220, 255);
+    text-align: center; /* Alinha o texto no centro das células */
+    padding: 50px; /* Espaçamento interno nas células */
+    border: 2px solid #000000;
+    width : 100%
+}
+.button {
+    background-color: #add8e6; /* Define a cor de fundo para um azul claro */
+    color: #fff; /* Define a cor do texto (branco, para contraste) */
+    border: 1px solid #add8e6; /* Adiciona uma borda ao botão na mesma cor do fundo */
+    padding: 10px 20px; /* Define o preenchimento interno do botão */
+    border-radius: 5px; /* Arredonda as bordas do botão */
+    text-align: center; /* Centraliza o texto horizontalmente */
+    text-decoration: none; /* Remove a decoração de link padrão, se aplicável */
+    display: inline-block; /* Faz com que o botão se comporte como um elemento de bloco, se necessário */
+    cursor: pointer; /* Muda o cursor para uma mão ao passar o mouse sobre o botão */
+    font-size: 16px; /* Define o tamanho da fonte */
+    font-weight: bold; /* Define a espessura da fonte como negrito, se desejado */
+  
+    /* Hover (quando o mouse passa sobre o botão) */
+    transition: background-color 0.3s; /* Adiciona uma transição suave de cor de fundo */
+  }
+  
+  .button:hover {
+    background-color: #5a9fd2; /* Altera a cor de fundo para um azul mais escuro no hover */
+    border: 1px solid #5a9fd2; /* Altera a cor da borda no hover */
+  }
+  .price{
+    color: red;
+    width: 20%;
+    
+  }

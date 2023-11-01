@@ -8,12 +8,60 @@ import numpy as np
 import pandas as pd
 import investpy as inv
 import datetime
-# Create your views here.
-
+from ast import literal_eval
+from datetime import datetime
+from apscheduler.schedulers.background import BackgroundScheduler
+from .monitoring import *
 
 class ReactView(APIView):
     serializer_class = ReactSerializer 
 
+    def get(self, request):
+        output = [{"symbol": output.symbol, "name": output.name, "actual_price": output.actual_price, "date": output.date,"monitor": output.monitor,"low":output.low,"high":output.high,"min":output.min,"max":output.max}
+                  for output in React.objects.all()]                
+        return Response(output)
+
+    def post(self, request):
+        var=False
+        lista_data =[]
+        form =React()
+        form.symbol = literal_eval(request.body.decode('utf-8'))["symbol"]
+        form.monitor = literal_eval(request.body.decode('utf-8'))["monitor"]
+        form.min = literal_eval(request.body.decode('utf-8'))["min"]
+        form.max = literal_eval(request.body.decode('utf-8'))["max"]
+        #get name, date and actual_price
+        try:
+            get_stock_data(form.symbol, form)
+        except:
+            return Response("Duplicata")
+        return Response("ok")
+
+def get_stock_data(symbol, form):
+        #get sql data
+
+        stock_data = React.objects.values()
+        lista_symbols = list(React.objects.values_list("symbol"))
+        if len(stock_data) !=0:
+            for i in range(len(stock_data)):
+                if symbol in lista_symbols :
+                    pass
+                else:
+                    create_form(form)
+                    React.objects.create(symbol=form.symbol,name=form.name,actual_price=form.actual_price,date=form.date,monitor=form.monitor,low=form.low,high=form.high,min=form.min,max=form.max)
+                    # scheduler = BackgroundScheduler()
+                    # scheduler.add_job(monitoring,'interval',seconds=form.monitor, args=[form])
+                    # scheduler.start()
+                    break
+        else:
+            create_form(form)
+            React.objects.all()
+            React.objects.create(symbol=form.symbol,name=form.name,actual_price=form.actual_price,date=form.date,monitor=form.monitor,low=form.low,high=form.high,min=form.min,max=form.max)
+
+
+
+def create_form (form) :
+
+    #get stocks
     df = inv.get_stocks(country = 'brazil' ) 
     #Puxando o nome dos símbolos  
     symbols=df['symbol'].tolist()    
@@ -22,59 +70,27 @@ class ReactView(APIView):
     #Nome dos ativos
     nome_dos_ativos = df['name'].tolist()
     dict_ativos={}
-    #Preenchendo o dataframe
+    #Preenchendo o dict
     for i in range(len(nome_dos_ativos)) :
-        dict_ativos[nome_dos_ativos[i]]= symbols[i]
+        dict_ativos[symbols[i]]= nome_dos_ativos[i]
+    #filling the form with the data to send to database
+    form.name = dict_ativos[form.symbol]
+    ativo = Ticker(form.symbol) 
+    df_ativo_history=pd.DataFrame(ativo.history(period="7d",  interval = "1m")).reset_index()
+    try : 
+        form.actual_price = df_ativo_history.iloc[-1,df_ativo_history.columns.get_loc('close')]
+    except:
+        form.actual_price = -1
+    try : 
+        form.low = df_ativo_history.iloc[-1,df_ativo_history.columns.get_loc('low')]
+    except:
+        form.low = -1
+    try : 
+        form.high = df_ativo_history.iloc[-1,df_ativo_history.columns.get_loc('high')]
+    except:
+        form.high = -1
+    try : 
+        form.date = df_ativo_history.iloc[-1,df_ativo_history.columns.get_loc('date')].to_pydatetime().strftime("%Y-%m-%d %H:%M:%S")
+    except:
+        form.date = datetime.datetime(2000, 10, 25, 00, 00, 00)
 
-    lista_valores=[]
-    lista_data=[]
-    lista_selecionados=['Banco BTG Pactual Pref','PETROBRAS PN']
-    lista_symbol_selecionados =[]
-    for i in range(len(lista_selecionados)):
-        lista_symbol_selecionados.append(dict_ativos[lista_selecionados[i]])
- 
-    for i in range(len(lista_selecionados)):
-
-            #Coleta de dados
-            ativo = Ticker(lista_symbol_selecionados[i]) 
-            df_ativo_history=pd.DataFrame(ativo.history(period="7d",  interval = "1m")).reset_index()
-            # df_ativo_history.sort_values(by=['date'], ascending=False)
-            print(df_ativo_history)
-
-            # for column in df_ativo_history.columns :
-            #     print(column)
-            print(df_ativo_history.iloc[-1,df_ativo_history.columns.get_loc('close')])
-            try : 
-                lista_valores.append(df_ativo_history.iloc[-1,df_ativo_history.columns.get_loc('close')])
-            except:
-                lista_valores.append(datetime(2000, 10, 25, 00, 00, 00))
-            try : 
-                lista_data.append(df_ativo_history.iloc[-1,df_ativo_history.columns.get_loc('date')].to_pydatetime().strftime("%Y-%m-%d %H:%M:%S"))
-            except:
-                lista_data.append(datetime(2000, 10, 25, 00, 00, 00))
-
-
-    
-    print(lista_valores)
-    print(lista_data)
-        #print(pd.DataFrame(ativo.history(period="7d",  interval = "1m")))
-
-    React.objects.all().delete()
-    React.objects.all()
-    for i in range(len(lista_selecionados)):
-        React.objects.create(symbol=lista_symbol_selecionados[i],name=lista_selecionados[i],actual_price=lista_valores[i],date=lista_data[i])
-
-    
-
-    
-    def get(self, request):
-        output = [{"employee": output.employee, "department": output.department}
-                  for output in React.objects.all()]
-        return Response(output)
-
-    def post(self, request):
-
-        serializer = ReactSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data)

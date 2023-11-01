@@ -18,6 +18,7 @@ from django.urls import path, include
 from django.urls import re_path as url
 from app.views import *
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', ReactView.as_view(), name="anything"),
