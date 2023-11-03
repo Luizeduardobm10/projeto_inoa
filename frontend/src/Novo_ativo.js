@@ -23,11 +23,11 @@ let postForm = function () {
 
 
   return (
-    <div >
+    <div class="container">
       <form  onSubmit={postForm}>
         <div class="label1">
         <label  htmlFor="selectAsset" >Selecione o Ativo:</label>
-          <select class="select" id="selectAsset" onChange={(e) => setSymbol(e.target.value)}>
+          <select class="select1" id="selectAsset" onChange={(e) => setSymbol(e.target.value)}>
             <option value="BPAC5.SA">BPAC5.SA</option>
             <option value="PETR4.SA">PETR4.SA</option>
             <option value="RADL3.SA">RADL3.SA</option>
@@ -41,23 +41,29 @@ let postForm = function () {
           </select>
         </div>
         <div class="label2">
+          <br></br>
         <label class="" htmlFor="selectAsset" >Periodicidade do monitoramento(minutos):</label>
-          <select class="select"id="selectAsset" onChange={(e) => setMonitor(e.target.value)}>
+          <select class="select2"id="selectAsset" onChange={(e) => setMonitor(e.target.value)}>
             <option value="1">1</option>
             <option value="5">5</option>
             <option value="10">10</option>
+            <option value="30">30</option>
+            <option value="60">60</option>
           </select>
         </div>
+        <br></br>
         <div class="label3">
           <label >Valor para compra:
             <input class="input2" type='text'  onChange={(e) => setMin(e.target.value)}></input>
           </label>
         </div>
+        <br></br>
         <div class="label4">
           <label >Valor para venda:
             <input class="input2" type='text' onChange={(e) => setMax(e.target.value)}></input>
           </label>
         </div>
+        <br></br>
         <div class="button1">
           <input  type='submit' value='Save'></input>
         </div>

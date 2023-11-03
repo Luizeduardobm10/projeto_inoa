@@ -1,5 +1,5 @@
 .label1{
-    position: relative;  
+    /* position: relative;   */
     font-size: 20px; 
     width: 100% ;
     text-align: center;
@@ -7,39 +7,40 @@
 
 }
 .label2{
-    position: relative;
+    /* position: relative; */
     font-size: 20px;
     width: 100% ;
     text-align: center;
     top: 250px;
 }
 .label3{
-    position: relative;
+    /* position: relative; */
     font-size: 20px;
     width: 100% ;
     text-align: center;
     top: 250px;
 }
 .label4{
-    position: relative;
+    /* position: relative; */
     font-size: 20px;
     width: 100% ;
     text-align: center;
     top: 250px;
 }
 .button1 {
-    position: relative;
+    /* position: relative; */
     font-size: 20px;
     text-align: center;
     top: 250px;
   }
 .select1{
-    position: relative;
-    font-size: 30px;
+    /* position: relative; */
+    font-size: 15px;
 }
 .select2{
-    position: relative;
-    width: 100px;
+    /* position: relative; */
+    font-size: 15px;
+    align-items: center;
 }
 .teste{
     background-size: 100%;
@@ -48,3 +49,15 @@
 .form{
     background-color: aqua;
 }
+.container {
+    position: relative;
+    left: 430px;
+    top:250px;
+    width: 500px; /* Largura do retângulo */
+    height: 220px; /* Altura do retângulo */
+    background-color: #fff; /* Cor de fundo do retângulo, semelhante a um formulário */
+    border: 1px solid #ccc; /* Borda fina ao redor do retângulo */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra suave para efeito de elevação */
+    padding: 20px; /* Espaçamento interno para afastar o conteúdo das bordas */
+  }
+  
