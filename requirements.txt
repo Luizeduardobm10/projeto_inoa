@@ -1,0 +1,6 @@
+
+Django   == 4.2.6
+apscheduler == 3.10.4
+investpy == 1.0.8
+yahooquery == 2.3.3
+requests == 2.31.0
