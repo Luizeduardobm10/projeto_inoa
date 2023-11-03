@@ -1,0 +1,50 @@
+.label1{
+    position: relative;  
+    font-size: 20px; 
+    width: 100% ;
+    text-align: center;
+    top: 250px;
+
+}
+.label2{
+    position: relative;
+    font-size: 20px;
+    width: 100% ;
+    text-align: center;
+    top: 250px;
+}
+.label3{
+    position: relative;
+    font-size: 20px;
+    width: 100% ;
+    text-align: center;
+    top: 250px;
+}
+.label4{
+    position: relative;
+    font-size: 20px;
+    width: 100% ;
+    text-align: center;
+    top: 250px;
+}
+.button1 {
+    position: relative;
+    font-size: 20px;
+    text-align: center;
+    top: 250px;
+  }
+.select1{
+    position: relative;
+    font-size: 30px;
+}
+.select2{
+    position: relative;
+    width: 100px;
+}
+.teste{
+    background-size: 100%;
+    background-color: blue;
+}
+.form{
+    background-color: aqua;
+}

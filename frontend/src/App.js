@@ -2,7 +2,6 @@
 import Home from "./Home.js";
 import NovoAtivo from "./Novo_ativo.js";
 import { BrowserRouter, Routes, Route} from "react-router-dom";
-import axios from 'axios'
 import React from 'react'
 
 
