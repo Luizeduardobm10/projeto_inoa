@@ -40,14 +40,17 @@ class Home extends React.Component {
     render() {
       return (
         <div>
-        <Link to='/novoativo' class="button"> Adicionar novo ativo</Link>
+      <Link to='/novoativo' class="button"> Adicionar novo ativo</Link>
         <table class="header">
           <thead>
               <th class="elements">Símbolo</th>
               <th class="elements">Nome</th>
-              <th class="elements">Data</th>
               <th class="elements">Preço Atual</th>
               <th class="elements">Intervalo de monitoramento</th>
+              <th class="elements">Limite para compra</th>
+              <th class="elements">Limite para venda</th>
+
+
           </thead>
         </table>
         {this.state.details.map((output, id) => (
@@ -56,13 +59,15 @@ class Home extends React.Component {
               <tr >
                 <td class="elements">{output.symbol}</td>
                 <td class="elements">{output.name}</td>
-                <td class="elements">{output.date}</td>
-                <td class="price">{output.actual_price}</td>
-                <td class="elements">{output.monitor}</td>
+                <td class="price">{output.actual_price.toFixed(2)}</td>
+                <td class="elements">{output.monitor} minutos</td>
+                <td class="min">{output.min}</td>
+                <td class="max">{output.max}</td>
               </tr>
             </table>
           </div>
         ))}
+
       </div>
       )
     }

@@ -10,8 +10,7 @@ import investpy as inv
 import datetime
 from ast import literal_eval
 from datetime import datetime
-from apscheduler.schedulers.background import BackgroundScheduler
-from .monitoring import *
+
 
 class ReactView(APIView):
     serializer_class = ReactSerializer 
@@ -23,37 +22,36 @@ class ReactView(APIView):
 
     def post(self, request):
         form =React()
+        #Armazenamento dos valores vindos do backend
         form.symbol = literal_eval(request.body.decode('utf-8'))["symbol"]
         form.monitor = literal_eval(request.body.decode('utf-8'))["monitor"]
         form.min = literal_eval(request.body.decode('utf-8'))["min"]
         form.max = literal_eval(request.body.decode('utf-8'))["max"]
-        #get name, date and actual_price
+        #Chama função para post dos dados vindos do frontend no database
+        post_stock_data(form.symbol, form)
+    
 
-        try:
-            post_stock_data(form.symbol, form)
-        except:
-            return Response("Duplicata")
-        return Response("ok")
 
 def post_stock_data(symbol, form):
-        #get sql data
-
+        
+        #GET dos dados do banco
         stock_data = React.objects.values()
         lista_symbols = list(React.objects.values_list("symbol"))
+        #Loop de verificação se o ativo já está sendo monitorado
         if len(stock_data) !=0:
             for i in range(len(stock_data)):
                 if symbol in lista_symbols :
                     pass
                 else:
+                #Criação do form para o form no database
                     create_form(form)
+                    #POST
                     React.objects.create(symbol=form.symbol,name=form.name,actual_price=form.actual_price,date=form.date,monitor=form.monitor,low=form.low,high=form.high,min=form.min,max=form.max)
-                    # scheduler = BackgroundScheduler()
-                    # scheduler.add_job(monitoring,'interval',seconds=form.monitor, args=[form])
-                    # scheduler.start()
                     break
         else:
+            #Criação do form para o form no database
             create_form(form)
-            print("passou aqui3")
+            #POST
             React.objects.create(symbol=form.symbol,name=form.name,actual_price=form.actual_price,date=form.date,monitor=form.monitor,low=form.low,high=form.high,min=form.min,max=form.max)
 
 

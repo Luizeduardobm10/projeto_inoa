@@ -1,15 +1,17 @@
 .header {
-    background-color: rgb(197, 197, 197);
+  color: white;
+    background-color: #005984;
     text-align: center; /* Alinha o texto no centro das células */
     padding: 50px; /* Espaçamento interno nas células */
     border: 2px solid #000000;
     width : 100%
+    
 }
 .elements {
     width: 20%;
 }
 .dataframe {
-    background-color: rgb(221, 220, 255);
+    background-color: rgb(239, 238, 238);
     text-align: center; /* Alinha o texto no centro das células */
     padding: 50px; /* Espaçamento interno nas células */
     border: 2px solid #000000;
