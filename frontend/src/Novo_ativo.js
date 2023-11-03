@@ -2,6 +2,7 @@
 import axios from 'axios';
 import React from 'react';
 import {useState} from 'react';
+import './Novoativo.css';
 
 function NovoAtivo() {
 
@@ -22,11 +23,11 @@ let postForm = function () {
 
 
   return (
-    <div>
-      <form onSubmit={postForm}>
-        <div>
-        <label htmlFor="selectAsset" >Selecione o Ativo:</label>
-          <select id="selectAsset" onChange={(e) => setSymbol(e.target.value)}>
+    <div >
+      <form  onSubmit={postForm}>
+        <div class="label1">
+        <label  htmlFor="selectAsset" >Selecione o Ativo:</label>
+          <select class="select" id="selectAsset" onChange={(e) => setSymbol(e.target.value)}>
             <option value="BPAC5.SA">BPAC5.SA</option>
             <option value="PETR4.SA">PETR4.SA</option>
             <option value="RADL3.SA">RADL3.SA</option>
@@ -37,26 +38,32 @@ let postForm = function () {
             <option value="ITSA4.SA">ITSA4.SA</option>
             <option value="CCRO3.SA">CCRO3.SA</option>
             <option value="OIBR4.SA">OIBR4.SA</option>
-
           </select>
         </div>
-        <div>
-        <label htmlFor="selectAsset" >Periodicidade do monitoramento:</label>
-          <select id="selectAsset" onChange={(e) => setMonitor(e.target.value)}>
+        <div class="label2">
+        <label class="" htmlFor="selectAsset" >Periodicidade do monitoramento(minutos):</label>
+          <select class="select"id="selectAsset" onChange={(e) => setMonitor(e.target.value)}>
             <option value="1">1</option>
             <option value="5">5</option>
             <option value="10">10</option>
           </select>
         </div>
-        <label>Valor para compra:
-        <input type='text' onChange={(e) => setMin(e.target.value)}></input>
-        </label>
-        <label>Valor para venda:
-        <input type='text' onChange={(e) => setMax(e.target.value)}></input>
-        </label>
-        <input type='submit' value='Save'></input>
+        <div class="label3">
+          <label >Valor para compra:
+            <input class="input2" type='text'  onChange={(e) => setMin(e.target.value)}></input>
+          </label>
+        </div>
+        <div class="label4">
+          <label >Valor para venda:
+            <input class="input2" type='text' onChange={(e) => setMax(e.target.value)}></input>
+          </label>
+        </div>
+        <div class="button1">
+          <input  type='submit' value='Save'></input>
+        </div>
       </form>
     </div>
+
   );
 }
 

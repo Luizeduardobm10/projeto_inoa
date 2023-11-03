@@ -22,21 +22,20 @@ class ReactView(APIView):
         return Response(output)
 
     def post(self, request):
-        var=False
-        lista_data =[]
         form =React()
         form.symbol = literal_eval(request.body.decode('utf-8'))["symbol"]
         form.monitor = literal_eval(request.body.decode('utf-8'))["monitor"]
         form.min = literal_eval(request.body.decode('utf-8'))["min"]
         form.max = literal_eval(request.body.decode('utf-8'))["max"]
         #get name, date and actual_price
+
         try:
-            get_stock_data(form.symbol, form)
+            post_stock_data(form.symbol, form)
         except:
             return Response("Duplicata")
         return Response("ok")
 
-def get_stock_data(symbol, form):
+def post_stock_data(symbol, form):
         #get sql data
 
         stock_data = React.objects.values()
@@ -54,7 +53,7 @@ def get_stock_data(symbol, form):
                     break
         else:
             create_form(form)
-            React.objects.all()
+            print("passou aqui3")
             React.objects.create(symbol=form.symbol,name=form.name,actual_price=form.actual_price,date=form.date,monitor=form.monitor,low=form.low,high=form.high,min=form.min,max=form.max)
 
 

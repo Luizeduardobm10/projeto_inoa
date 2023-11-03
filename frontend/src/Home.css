@@ -16,7 +16,9 @@
     width : 100%
 }
 .button {
-    background-color: #add8e6; /* Define a cor de fundo para um azul claro */
+    position: relative;
+    width: 100%;
+    background-color: #50c172; /* Define a cor de fundo para um azul claro */
     color: #fff; /* Define a cor do texto (branco, para contraste) */
     border: 1px solid #add8e6; /* Adiciona uma borda ao botão na mesma cor do fundo */
     padding: 10px 20px; /* Define o preenchimento interno do botão */
@@ -33,7 +35,7 @@
   }
   
   .button:hover {
-    background-color: #5a9fd2; /* Altera a cor de fundo para um azul mais escuro no hover */
+    background-color: #369355; /* Altera a cor de fundo para um azul mais escuro no hover */
     border: 1px solid #5a9fd2; /* Altera a cor da borda no hover */
   }
   .price{
