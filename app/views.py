@@ -4,7 +4,6 @@ from . models import *
 from rest_framework.response import Response
 from . serializer import *
 from yahooquery import Ticker
-import numpy as np
 import pandas as pd
 import investpy as inv
 import datetime
