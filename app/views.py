@@ -88,5 +88,6 @@ def create_form (form) :
     try : 
         form.date = df_ativo_history.iloc[-1,df_ativo_history.columns.get_loc('date')].to_pydatetime().strftime("%Y-%m-%d %H:%M:%S")
     except:
+        #Apenas uma data aleatória para caso não haja valores de data vindos da API
         form.date = datetime.datetime(2000, 10, 25, 00, 00, 00)
 
