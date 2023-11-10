@@ -1,5 +1,4 @@
 from django.apps import AppConfig
-from datetime import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
 from django.core.mail import send_mail
 from backend.settings import EMAIL_HOST_USER
