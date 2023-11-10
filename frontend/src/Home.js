@@ -4,20 +4,7 @@ import axios from 'axios'
 import './Home.css';
 import { Link } from "react-router-dom";
 
-// function LoginLayout() {
-  
-//   let navigate = useNavigate(); 
-//   const routeChange = () =>{ 
-//     let path = 'novoativo'; 
-//     navigate(path);
-//   }
-  
-//   return (
-//      <div className="app flex-row align-items-center">
-//       <button onClick={routeChange}>Adicionar novo ativo</button>
-//     </div>
-//   );
-// }
+
 
 class Home extends React.Component {
 
@@ -61,8 +48,8 @@ class Home extends React.Component {
                 <td class="elements">{output.name}</td>
                 <td class="price">{output.actual_price.toFixed(2)}</td>
                 <td class="elements">{output.monitor} minutos</td>
-                <td class="min">{output.min}</td>
-                <td class="max">{output.max}</td>
+                <td class="elements">{output.min}</td>
+                <td class="elements">{output.max}</td>
               </tr>
             </table>
           </div>

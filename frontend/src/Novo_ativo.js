@@ -3,11 +3,12 @@ import axios from 'axios';
 import React from 'react';
 import {useState} from 'react';
 import './Novoativo.css';
+import {useNavigate} from 'react-router-dom';
 
 function NovoAtivo() {
 
 
-
+const history = useNavigate();
 const [symbol,setSymbol] = useState();
 const [monitor,setMonitor] = useState();
 const [min,setMin] = useState();
@@ -19,6 +20,7 @@ let postForm = function () {
   axios.post('http://localhost:8000/',{symbol,monitor,min,max})
     .then(res => console.log(res))
     .catch(err => console.log(err))
+  history('/');
 }
 
 
